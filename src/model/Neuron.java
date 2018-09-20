@@ -2,6 +2,7 @@ package model;
 
 import java.util.Random;
 
+import constant.Constants;
 import math.IActivation;
 import util.RandomGenerator;
 
@@ -129,13 +130,15 @@ public class Neuron {
 
 	private void initializeWeights() {    	  
     	for (int i = 0; i < weights.length; i++) {  		    		
-    		float value = RandomGenerator.generateRandom(1, 100) / 100.0f;
+    		float value = RandomGenerator.generateRandom(Constants.MIN_WEIGHT, 
+    									Constants.MAX_WEIGHT) / Constants.WEIGHT_NORMALIZER;
             this.weights[i] = value;
         }   	
     }
     
     private void initializeBias() {     
-        this.bias = -0.5f;// RandomGenerator.generateRandom(1, 100) / -100.0f;
+        this.bias = RandomGenerator.generateRandom(Constants.MIN_BIAS, 
+        									Constants.MAX_BIAS) / Constants.BIAS_NORMALIZER;
     }
 	
 }

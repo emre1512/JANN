@@ -22,10 +22,12 @@ public class XORTest {
 		
 		Layer hiddenLayer1 = new HiddenLayer(2, new SigmoidActivation());
 		Layer hiddenLayer2 = new HiddenLayer(2, new SigmoidActivation());
-		Layer outputLayer = new OutputLayer(1, new SigmoidActivation());
+		Layer hiddenLayer3 = new HiddenLayer(3, new SigmoidActivation());
+		Layer outputLayer = new OutputLayer(2, new SigmoidActivation());
 		
 		nn.addLayer(hiddenLayer1);
 //		nn.addLayer(hiddenLayer2);
+//		nn.addLayer(hiddenLayer3);
 		nn.addLayer(outputLayer);
 		
 		// Dummy dataset
@@ -35,7 +37,8 @@ public class XORTest {
         dataset.add(new float[]{1, 1, 0});
         dataset.add(new float[]{1, 0, 1});
 		
-		Trainer trainer = new Trainer(nn);	
+		Trainer trainer = new Trainer(nn);
+		trainer.showIterations(150000);
 		trainer.train(dataset);	
 		trainer.test(dataset);
 		

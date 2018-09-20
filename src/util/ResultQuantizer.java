@@ -2,8 +2,8 @@ package util;
 
 public class ResultQuantizer {
 
-	public static String quantizeResult(float result) {
-        return Integer.toString(Math.round(result)) + " (" + Float.toString(result) + ")";
+	public static int quantizeResult(float result) {
+        return Math.round(result);
     }
 	
 }

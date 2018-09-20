@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import constant.Constants;
+import log.Logger;
 import math.IError;
 
 public class NeuralNetwork {
@@ -10,7 +12,7 @@ public class NeuralNetwork {
 	private List<Layer> layers;
 	private int epoch;
 	private float[] inputs;
-	private float desiredOutput;
+	private float[] desiredOutput;
     private float nu;
     private float desiredError;
     private boolean hasOutputLayer = false;
@@ -29,11 +31,15 @@ public class NeuralNetwork {
 		this.inputs = inputs;
 	}
 	
-	public float getDesiredOutput(){
+	public float[] getDesiredOutput(){
 		return this.desiredOutput;
 	}
 	
-	public void setDesiredOutput(float desiredOutput){
+	public float getLearningRate(){
+		return this.nu;
+	}
+	
+	public void setDesiredOutput(float[] desiredOutput){
 		this.desiredOutput = desiredOutput;
 	}
 	
@@ -41,6 +47,10 @@ public class NeuralNetwork {
 		this.errorFunction = errorFunction;
 	}
 
+	public float getDesiredError(){
+		return this.desiredError;
+	}
+	
     public NeuralNetwork(float nu, float desiredError, int epoch, IError errorFunction){
         this.nu = nu;
         this.desiredError = desiredError;       
@@ -50,7 +60,7 @@ public class NeuralNetwork {
     }
     
     public void addLayer(Layer layer){
-    	if(layer.getClass().getSimpleName().equals("OutputLayer")){
+    	if(layer.getClass().getSimpleName().equals(Constants.OUTPUT_LAYER_NAME)){
     		hasOutputLayer = true;
     		layers.add(layer);
     	}
@@ -60,9 +70,13 @@ public class NeuralNetwork {
     }
            
     public void train() {
-        feedForward();
-        calculateError();
-        backPropagation();
+    	if(!hasOutputLayer){
+    		Logger.getInstance().showNoOutputLayerError();
+    	}else{
+            feedForward();
+            calculateError();
+            backPropagation();
+    	}
     }
     
     public void test() {
@@ -111,7 +125,7 @@ public class NeuralNetwork {
     
     	for(int i = 0; i < layers.get(outputLayerIndex).getNeuronCount(); i++){
     		Neuron neuron = layers.get(outputLayerIndex).getNeurons().get(i);
-    		neuron.error = neuron.getActivationOutput() - getDesiredOutput();
+    		neuron.error = neuron.getActivationOutput() - desiredOutput[i];
     		
     		globalError += errorFunction.error(neuron.error);
     	}
@@ -135,7 +149,7 @@ public class NeuralNetwork {
     			float delta = 0;
     			
     			if(i == outputLayerIndex){   		
-                    float derivativeOfError = errorFunction.derivative(currentNeuron.getActivationOutput(), getDesiredOutput());
+                    float derivativeOfError = errorFunction.derivative(currentNeuron.getActivationOutput(), desiredOutput[j]);
                     delta = derivativeOfError * currentNeuron.getActivationDerivative(currentNeuron.getActivationOutput());                
     			}			
     			else{
