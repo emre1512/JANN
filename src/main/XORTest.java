@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import math.IError;
+import math.LeakedReluActivation;
 import math.SigmoidActivation;
 import math.SquaredError;
+import math.TanHActivation;
 import model.HiddenLayer;
 import model.Layer;
 import model.NeuralNetwork;
@@ -20,7 +22,7 @@ public class XORTest {
 				
 		NeuralNetwork nn = new NeuralNetwork(0.1f, 5E-3f, 3000000, new SquaredError());
 		
-		Layer hiddenLayer1 = new HiddenLayer(2, new SigmoidActivation());
+		Layer hiddenLayer1 = new HiddenLayer(2, new LeakedReluActivation());
 		Layer hiddenLayer2 = new HiddenLayer(2, new SigmoidActivation());
 		Layer hiddenLayer3 = new HiddenLayer(3, new SigmoidActivation());
 		Layer outputLayer = new OutputLayer(2, new SigmoidActivation());

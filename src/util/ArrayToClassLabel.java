@@ -12,10 +12,10 @@ public class ArrayToClassLabel {
 		
 		int total = 0;
 		for(int i = 0; i < result.length; i++){
-			total += result[i];	
+			if (result[i] == 1) total++;
 		}
 		
-		if(total == 0 || total > 1){
+		if(total != 1){
 			float biggest = result[0];
 			int biggestIndex = 0;
 			
