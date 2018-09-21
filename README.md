@@ -24,7 +24,7 @@ nc.testNetwork(testdata);
 ```
 
 ## Sample Output
-
+```
 ======= Training Starts =======
 Max Epochs        : 3000000
 Max Error         : 0.005
@@ -49,6 +49,7 @@ Input: |1,00 1,00 | Result: 0 | Real Result: 0
 
 ========== Test Ends ==========
 Success: %100.0
+```
 
 ## Usage
 
