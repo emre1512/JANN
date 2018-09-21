@@ -6,6 +6,11 @@ import java.util.List;
 import constant.Constants;
 import log.Logger;
 import math.IError;
+import math.LeakedReluActivation;
+import math.ReluActivation;
+import math.SigmoidActivation;
+import math.TanHActivation;
+import math.IActivation.ActivationFunction;
 
 public class NeuralNetwork {
 
@@ -208,5 +213,5 @@ public class NeuralNetwork {
     public boolean hasLearnt() {
         return (globalError < desiredError);
     }
-    
+
 }
