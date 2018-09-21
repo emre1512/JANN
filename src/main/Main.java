@@ -10,7 +10,7 @@ import model.NeuralNetwork;
 import model.OutputLayer;
 import model.NetworkController;
 
-public class XORTest {
+public class Main {
 	
 	public static void main(String[] args){
 
