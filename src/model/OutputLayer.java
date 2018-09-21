@@ -1,8 +1,6 @@
 package model;
 
-import math.IActivation;
 import math.IActivation.ActivationFunction;
-import math.IError;
 
 public class OutputLayer extends Layer{
 

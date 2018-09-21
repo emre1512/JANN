@@ -3,16 +3,16 @@ package math;
 public class SquaredError implements IError {
 
 	@Override
-	public float error(float value) {
-		return (float) Math.pow(value, 2);
+	public float error(float result, float desired) {
+		return (float) Math.pow(result - desired, 2);
 	}
 
 	// Derivative of global error G = sqrt(sum((ai - yi)^2))
 	// with respect to the individual output neuron
-	// Thus, G' = 2 * (ai - yi) for every output neuron itself.
+	// Thus, G' = (ai - yi) for every output neuron itself.
 	@Override
 	public float derivative(float result, float desired) {
-		return 2 * (result - desired);
+		return (result - desired);
 	}
 	
 }

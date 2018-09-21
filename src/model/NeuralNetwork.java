@@ -2,15 +2,9 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import constant.Constants;
 import log.Logger;
 import math.IError;
-import math.LeakedReluActivation;
-import math.ReluActivation;
-import math.SigmoidActivation;
-import math.TanHActivation;
-import math.IActivation.ActivationFunction;
 
 public class NeuralNetwork {
 
@@ -129,10 +123,8 @@ public class NeuralNetwork {
     	int outputLayerIndex = layers.size() - 1;
     
     	for(int i = 0; i < layers.get(outputLayerIndex).getNeuronCount(); i++){
-    		Neuron neuron = layers.get(outputLayerIndex).getNeurons().get(i);
-    		neuron.error = neuron.getActivationOutput() - desiredOutput[i];
-    		
-    		globalError += errorFunction.error(neuron.error);
+    		Neuron neuron = layers.get(outputLayerIndex).getNeurons().get(i);    		
+    		globalError += errorFunction.error(neuron.getActivationOutput(), desiredOutput[i]);
     	}
     	
     	globalError = (float) Math.sqrt(globalError);
@@ -158,7 +150,7 @@ public class NeuralNetwork {
                     delta = derivativeOfError * currentNeuron.getActivationDerivative(currentNeuron.getActivationOutput());                
     			}			
     			else{
-    				// previous'tan kasýt hidden layer için output layer!
+    				// Previous neuron is output layer for hidden layer!
         			Layer previousLayer = layers.get(i+1);  
 
     				for(int k = 0; k < previousLayer.getNeuronCount(); k++){
@@ -174,22 +166,19 @@ public class NeuralNetwork {
     				for (int k = 0; k < inputs.length; k++) {
                 		float weightDiff = nu * currentNeuron.getDelta() * inputs[k];
                         float biasDiff = nu * currentNeuron.getDelta();
-//                        currentNeuron.setUpdatedWeight(k, currentNeuron.getWeight(k) - weightDiff);
                         currentNeuron.setWeight(k, currentNeuron.getWeight(k) - weightDiff);
                         currentNeuron.setBias(currentNeuron.getBias() - biasDiff);
                     }
     			}
     			else{
-    				// Bu sefer previous'tan kasýt OutputLayer için hidden layer!
-        			Layer previousLayer = layers.get(i-1); 
-//        			System.out.println(previousLayer.getNeurons().size());
+    				// Previous neuron is hidden layer for output layer!
+    				Layer previousLayer = layers.get(i-1); 
         			for (int k = 0; k < previousLayer.getNeurons().size(); k++) {
         				
         				Neuron previousNeuron = previousLayer.getNeurons().get(k);
         				
                 		float weightDiff = nu * currentNeuron.getDelta() * previousNeuron.getActivationOutput();
                         float biasDiff = nu * currentNeuron.getDelta();
-//                        currentNeuron.setUpdatedWeight(k, currentNeuron.getWeight(k) - weightDiff);
 
                         currentNeuron.setWeight(k, currentNeuron.getWeight(k) - weightDiff);
                         currentNeuron.setBias(currentNeuron.getBias() - biasDiff);

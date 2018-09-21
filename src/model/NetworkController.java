@@ -1,27 +1,25 @@
 package model;
 
 import java.util.List;
-
 import constant.Constants;
 import log.Logger;
 import util.ArrayToClassLabel;
 import util.ClassLabelToArray;
-import util.ResultQuantizer;
 import util.SuccessCalculator;
 
-public class Trainer {
+public class NetworkController {
 
 	private NeuralNetwork nn;
 	private int epoch;
 	private int iteration;
 	private int iterationLogStepCount = Constants.ITERATION_LOG_STEP_COUNT;
 	
-	public Trainer(NeuralNetwork nn){
+	public NetworkController(NeuralNetwork nn){
 		this.nn = nn;
 		this.epoch = nn.getEpoch();
 	}
 	
-	public void train(List<float[]> trainDataset){
+	public void trainNetwork(List<float[]> trainDataset){
 		
 		int sampleCount = trainDataset.size();
 		int inputCount = trainDataset.get(0).length - 1;
@@ -31,11 +29,11 @@ public class Trainer {
 		
 		Logger.getInstance().showTrainingStartMessage(epoch, nn.getDesiredError(), nn.getLearningRate());
 		
-		int iteration = 0;
+		int iter = 0;
 		
 		do {
 
-        	iteration++;
+        	iter++;
         	
         	for(int i = 0; i < sampleCount; i++){
         		
@@ -56,24 +54,20 @@ public class Trainer {
         	}
         	        	
             if (iterationLogStepCount != Constants.ITERATION_LOG_STEP_COUNT 
-            		&& iteration % iterationLogStepCount == 0) {
-                Logger.getInstance().showIterationStats(iteration, nn.getGlobalError());
+            		&& iter % iterationLogStepCount == 0) {
+                Logger.getInstance().showIterationStats(iter, nn.getGlobalError());
             }
         	
 		} while (!nn.hasLearnt() && iteration < epoch);
 		
-		this.iteration = iteration;
+		this.iteration = iter;
 		
 		Logger.getInstance().showTrainingEndMessage(iteration, nn.getGlobalError());
 	}
 	
-	public void test(List<float[]> testDataset){
+	public void testNetwork(List<float[]> testDataset){
       
 		Logger.getInstance().showTestStartMessage();
-		
-//	    System.out.println("Training has been completed.");
-//	    System.out.println("Total iteration: " + this.iteration + ", accepted error: " + nn.getGlobalError());
-//	    System.out.println("Test cases are in progress...");
 	       
 		int sampleCount = testDataset.size();
 		int inputCount = testDataset.get(0).length - 1;
@@ -101,16 +95,7 @@ public class Trainer {
     		
     		
     		for(int j = 0; j < nn.getLayers().get(outputLayerIndex).getNeuronCount(); j++){
-//    	        System.out.println(testDataset.get(i)[0] + " XOR " + testDataset.get(i)[1] + " = " + 
-//    					ResultQuantizer.quantizeResult(nn.getLayers().get(outputLayerIndex).getNeurons().get(j).getActivationOutput()));
-        		
     			nnOutput[j] = nn.getLayers().get(outputLayerIndex).getNeurons().get(j).getActivationOutput();
-
-    			
-//    	        Logger.getInstance().showTestCaseResult(inputs, nn.getLayers().get(outputLayerIndex).getNeurons().get(j).getActivationOutput(),
-//    	        		ResultQuantizer.quantizeResult(nn.getLayers().get(outputLayerIndex).getNeurons().get(j).getActivationOutput()), 
-//    	        		sample[classLabelIndex]);
-
     		}
     		
 			int predictedClass = ArrayToClassLabel.convert(nnOutput);
