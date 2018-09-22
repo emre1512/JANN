@@ -26,7 +26,7 @@ public class Main {
 	
 		// Train and test
 		NetworkController nc = new NetworkController(nn);
-		nc.showIterations(250000);
+		nc.showIterations(50000);
 		nc.trainNetwork(traindata);	
 		nc.testNetwork(testdata);
 		
