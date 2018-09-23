@@ -5,6 +5,8 @@ import java.util.List;
 import constant.Constants;
 import log.Logger;
 import math.IError;
+import math.MeanSquaredError;
+import math.IError.ErrorFunction;
 
 public class NeuralNetwork {
 
@@ -50,12 +52,16 @@ public class NeuralNetwork {
 		return this.desiredError;
 	}
 	
-    public NeuralNetwork(float nu, float desiredError, int epoch, IError errorFunction){
+    public NeuralNetwork(float nu, float desiredError, int epoch, ErrorFunction errorFunction){
         this.nu = nu;
         this.desiredError = desiredError;       
         this.epoch = epoch;
         this.layers = new ArrayList<>();
-        this.errorFunction = errorFunction;
+
+        if(errorFunction == ErrorFunction.MSE){
+            this.errorFunction = new MeanSquaredError();
+        }
+
     }
     
     public void addLayer(Layer layer){
@@ -121,13 +127,15 @@ public class NeuralNetwork {
     	resetGlobalError();
         
     	int outputLayerIndex = layers.size() - 1;
-    
-    	for(int i = 0; i < layers.get(outputLayerIndex).getNeuronCount(); i++){
-    		Neuron neuron = layers.get(outputLayerIndex).getNeurons().get(i);    		
-    		globalError += errorFunction.error(neuron.getActivationOutput(), desiredOutput[i]);
-    	}
+//    
+//    	for(int i = 0; i < layers.get(outputLayerIndex).getNeuronCount(); i++){
+//    		Neuron neuron = layers.get(outputLayerIndex).getNeurons().get(i);    		
+//    		globalError += errorFunction.error(neuron.getActivationOutput(), desiredOutput[i]);
+//    	}
+//    	
+//    	globalError /= (float)layers.get(outputLayerIndex).getNeuronCount();
     	
-    	globalError = (float) Math.sqrt(globalError);
+    	globalError = errorFunction.error(desiredOutput, layers.get(outputLayerIndex).getNeurons());
     	
     }
     
@@ -146,7 +154,7 @@ public class NeuralNetwork {
     			float delta = 0;
     			
     			if(i == outputLayerIndex){   		
-                    float derivativeOfError = errorFunction.derivative(currentNeuron.getActivationOutput(), desiredOutput[j]);
+                    float derivativeOfError = errorFunction.derivative(currentNeuron.getActivationOutput(), desiredOutput[j], layers.get(i).getNeuronCount());
                     delta = derivativeOfError * currentNeuron.getActivationDerivative(currentNeuron.getActivationOutput());                
     			}			
     			else{

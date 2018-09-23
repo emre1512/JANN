@@ -4,7 +4,8 @@ import java.util.List;
 import io.DataLoader;
 import io.DataLoader.Seperator;
 import math.IActivation.ActivationFunction;
-import math.SquaredError;
+import math.IError.ErrorFunction;
+import math.MeanSquaredError;
 import model.HiddenLayer;
 import model.NeuralNetwork;
 import model.OutputLayer;
@@ -19,7 +20,7 @@ public class Main {
 		List<float[]> testdata = DataLoader.loadData("C:\\Users\\user\\Documents\\AI Projects\\JANN\\testdata.txt", Seperator.COMMA);
 		
 		// Create neural network
-		NeuralNetwork nn = new NeuralNetwork(0.1f, 5E-3f, 3000000, new SquaredError());
+		NeuralNetwork nn = new NeuralNetwork(0.1f, 5E-3f, 3000000, ErrorFunction.MSE);
 		nn.addLayer(new HiddenLayer(2, ActivationFunction.SIGMOID));
 		nn.addLayer(new HiddenLayer(3, ActivationFunction.SIGMOID));
 		nn.addLayer(new OutputLayer(2, ActivationFunction.SIGMOID));
