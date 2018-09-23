@@ -11,10 +11,10 @@ List<float[]> traindata = DataLoader.loadData("C:\\JANN\\traindata.txt", Seperat
 List<float[]> testdata = DataLoader.loadData("C:\\JANN\\testdata.txt", Seperator.COMMA);
 	
 // Create neural network
-NeuralNetwork nn = new NeuralNetwork(0.1f, 5E-3f, 3000000, new SquaredError());
+NeuralNetwork nn = new NeuralNetwork(0.1f, 5E-3f, 3000000, ErrorFunction.MSE);
 nn.addLayer(new HiddenLayer(2, ActivationFunction.SIGMOID));
 nn.addLayer(new HiddenLayer(3, ActivationFunction.SIGMOID));
-nn.addLayer(new OutputLayer(2, ActivationFunction.SIGMOID)); // Neuron count must be same with class count at OutpuLayer!
+nn.addLayer(new OutputLayer(2, ActivationFunction.SIGMOID)); // Neuron count must be same with class count at OutputLayer!
 
 // Train and test
 NetworkController nc = new NetworkController(nn);
@@ -59,7 +59,7 @@ List<float[]> traindata = DataLoader.loadData(path, Seperator.COMMA);	// Read da
 List<float[]> testdata = DataLoader.loadData(path, Seperator.COMMA);
 
 // Create neural network
-NeuralNetwork nn = new NeuralNetwork(learningRate, maxError, maxEpoch, new SquaredError());	// Set learning rate, desired max error and epoch count.
+NeuralNetwork nn = new NeuralNetwork(learningRate, maxError, maxEpoch, ErrorFunction.MSE);	// Set learning rate, desired max error and epoch count.
 nn.addLayer(new HiddenLayer(neuronCount, activationFunction));	// Set neuron count in layer and activation functions of the neurons.
 ...
 ...
