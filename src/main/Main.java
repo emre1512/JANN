@@ -21,8 +21,8 @@ public class Main {
 		
 		// Create neural network
 		NeuralNetwork nn = new NeuralNetwork(0.1f, 5E-3f, 3000000, ErrorFunction.MSE);
-		nn.addLayer(new HiddenLayer(2, ActivationFunction.SIGMOID));
-		nn.addLayer(new HiddenLayer(3, ActivationFunction.SIGMOID));
+		nn.addLayer(new HiddenLayer(2, ActivationFunction.LEAKED_RELU));
+		nn.addLayer(new HiddenLayer(3, ActivationFunction.LEAKED_RELU));
 		nn.addLayer(new OutputLayer(2, ActivationFunction.SIGMOID));
 	
 		// Train and test
