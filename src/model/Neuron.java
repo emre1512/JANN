@@ -7,7 +7,6 @@ import util.RandomGenerator;
 public class Neuron {
 
 	private float[] weights;
-	private float[] updatedWeights;
     private float bias;
     private float neuronOutput;
     private float activationOutput;
@@ -17,7 +16,6 @@ public class Neuron {
     
     public Neuron(IActivation activationFunction, int weightCount) {
         this.weights = new float[weightCount];
-        this.updatedWeights = new float[weightCount];
         this.activationFunction = activationFunction;
         
         this.delta = 0;
@@ -37,14 +35,6 @@ public class Neuron {
     
     public void setWeight(int index, float weight) {
         weights[index] = weight;     
-    }
-    
-    public float getUpdatedWeight(int index) {
-        return updatedWeights[index];
-    }
-    
-    public void setUpdatedWeight(int index, float weight) {
-    	updatedWeights[index] = weight;     
     }
     
     public float getNeuronOutput() {
