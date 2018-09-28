@@ -58,7 +58,7 @@ public class NetworkController {
                 Logger.getInstance().showIterationStats(iter, nn.getGlobalError());
             }
         	
-		} while (!nn.hasLearnt() && iteration < epoch);
+		} while (!nn.hasLearnt() && iter < epoch);
 		
 		this.iteration = iter;
 		
