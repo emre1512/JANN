@@ -7,6 +7,7 @@ import math.IActivation;
 import math.ReluActivation;
 import math.IActivation.ActivationFunction;
 import math.LeakedReluActivation;
+import math.LinearActivation;
 import math.SigmoidActivation;
 import math.TanHActivation;
 
@@ -57,6 +58,9 @@ public abstract class Layer {
 		}
 		else if(af == ActivationFunction.LEAKED_RELU){
 			this.activationFunction = new LeakedReluActivation();
+		}
+		else if(af == ActivationFunction.LINEAR){
+			this.activationFunction = new LinearActivation();
 		}
 	}
 	
